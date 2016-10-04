@@ -1,3 +1,12 @@
+# TheHive10145 Robot Controller
+
+## Created and maintained by The Hive, team 10145.
+
+This is the main code for the robot.
+
+
+## FTC Readme:
+
 # ftc_app
 FTC Android Studio project to create FTC Robot Controller app.
 
