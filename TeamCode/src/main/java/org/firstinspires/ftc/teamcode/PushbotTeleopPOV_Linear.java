@@ -53,8 +53,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pushbot: Teleop POV", group="Pushbot")
-@Disabled
+@TeleOp(name="TheHive OpMode", group="Pushbot")
+//@Disabled
 public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -75,7 +75,7 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Driver");    //
+        telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -84,10 +84,8 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            // Run wheels in POV mode (note: The joystick goes negative when pushed forwards, so negate it)
-            // In this mode the Left stick moves the robot fwd and back, the Right stick turns left and right.
-            left  = -gamepad1.left_stick_y + gamepad1.right_stick_x;
-            right = -gamepad1.left_stick_y - gamepad1.right_stick_x;
+            left  = gamepad1.left_stick_y; //Amount of Left Drive
+            right = gamepad1.right_stick_y; //Amount of Right Drive
 
             // Normalize the values so neither exceed +/- 1.0
             max = Math.max(Math.abs(left), Math.abs(right));
@@ -97,8 +95,9 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
                 right /= max;
             }
 
-            robot.leftMotor.setPower(left);
-            robot.rightMotor.setPower(right);
+            robot.leftMotor.setPower(left); //Set to left drive
+            robot.rightMotor.setPower(right); // Set to right drive
+
 
             // Use gamepad left & right Bumpers to open and close the claw
             if (gamepad1.right_bumper)
@@ -111,13 +110,14 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
             robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
             robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
 
-            // Use gamepad buttons to move arm up (Y) and down (A)
+            /* Use gamepad buttons to move arm up (Y) and down (A)
             if (gamepad1.y)
                 robot.armMotor.setPower(robot.ARM_UP_POWER);
             else if (gamepad1.a)
                 robot.armMotor.setPower(robot.ARM_DOWN_POWER);
             else
                 robot.armMotor.setPower(0.0);
+            */
 
             // Send telemetry message to signify robot running;
             telemetry.addData("claw",  "Offset = %.2f", clawOffset);
