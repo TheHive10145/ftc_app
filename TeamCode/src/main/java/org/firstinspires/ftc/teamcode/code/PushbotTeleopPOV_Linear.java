@@ -124,13 +124,16 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
                 robot.armMotor.setPower(0.0);
             */
 
-            
+            aButton = gamepad1.a;
 
-            robot.leftMotor.setPower();
+            if (!aButton) {
+                robot.leftMotor.setPower(0.0);
+            } else {
+                robot.leftMotor.setPower(1.0);
+            }
 
-            telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-            telemetry.addData("left",  "%.2f", left);
-            telemetry.addData("right", "%.2f", right);
+
+            telemetry.addData("Say",  "Running Robot.");
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
