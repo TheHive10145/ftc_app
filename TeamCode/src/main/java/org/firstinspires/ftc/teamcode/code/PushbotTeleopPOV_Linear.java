@@ -30,7 +30,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.code;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -68,6 +68,7 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
         double left;
         double right;
         double max;
+        boolean aButton;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -84,6 +85,7 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            /*
             left  = gamepad1.left_stick_y; //Amount of Left Drive
             right = gamepad1.right_stick_y; //Amount of Right Drive
 
@@ -94,21 +96,24 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
                 left /= max;
                 right /= max;
             }
+            */
 
+            /*
             robot.leftMotor.setPower(left); //Set to left drive
             robot.rightMotor.setPower(right); // Set to right drive
-
+            */
 
             // Use gamepad left & right Bumpers to open and close the claw
-            if (gamepad1.right_bumper)
+            /* if (gamepad1.right_bumper)
                 clawOffset += CLAW_SPEED;
             else if (gamepad1.left_bumper)
                 clawOffset -= CLAW_SPEED;
+            */
 
             // Move both servos to new position.  Assume servos are mirror image of each other.
-            clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-            robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-            robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
+            //clawOffset = Range.clip(clawOffset, -0.5, 0.5);
+            //robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
+            //robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
 
             /* Use gamepad buttons to move arm up (Y) and down (A)
             if (gamepad1.y)
@@ -119,7 +124,10 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
                 robot.armMotor.setPower(0.0);
             */
 
-            // Send telemetry message to signify robot running;
+            
+
+            robot.leftMotor.setPower();
+
             telemetry.addData("claw",  "Offset = %.2f", clawOffset);
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);
