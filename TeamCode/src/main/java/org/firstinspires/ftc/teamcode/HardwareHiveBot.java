@@ -33,6 +33,7 @@ public class HardwareHiveBot
     /* Public OpMode members. */
     public DcMotor  leftMotor   = null;
     public DcMotor  rightMotor  = null;
+    public Servo  shooterServo  = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
@@ -50,7 +51,8 @@ public class HardwareHiveBot
 
         // Define and Initialize Motors
         leftMotor   = hwMap.dcMotor.get("left_drive"); //Name
-        rightMotor  = hwMap.dcMotor.get("right_drive"); //Name™
+        rightMotor  = hwMap.dcMotor.get("right_drive"); //Name
+        shooterServo  = hwMap.servo.get("shooter_servo"); //Name
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
@@ -75,7 +77,7 @@ public class HardwareHiveBot
      */
     public void waitForTick(long periodMs) throws InterruptedException {
 
-        long  remaining = periodMs - (long)period.milliseconds();
+        long remaining = periodMs - (long)period.milliseconds();
 
         // sleep for the remaining portion of the regular cycle period.
         if (remaining > 0)
