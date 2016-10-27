@@ -66,14 +66,17 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
+import org.firstinspires.ftc.teamcode.supp.ServoMap;
+
 /**
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
+ * This OpMode uses the common Pushbot hardware class to defined the devices on the robot.
  * All device access is managed through the HardwarePushbot class.
  * The code is structured as a LinearOpMode
  *
@@ -86,7 +89,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Mariposa Laser Tag Arena", group="Pushbot")
+@Autonomous(name="Autonomous 1", group="Pushbot")
 //@Disabled
 public class HiveBotAutonomous1 extends LinearOpMode {
 
@@ -94,7 +97,9 @@ public class HiveBotAutonomous1 extends LinearOpMode {
     HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
                                                                // could also use HardwarePushbotMatrix class.
     double          clawOffset      = 0;                       // Servo mid position
-    final double    CLAW_SPEED      = 0.02 ;                   // sets rate to move servo
+    final double    CLAW_SPEED      = 0.02 ;                    // sets rate to move servo
+
+    ServoMap Serv = new ServoMap();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -116,12 +121,9 @@ public class HiveBotAutonomous1 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            double positions[] = {0.0,0.5,1.0};
-            int index = 0;
-            if (timer.time() >= 0.5 && index < positions.length) {
-                timer.reset();
-                robot.shooterServo.setPosition(positions[index]);
-                index++;
+            if (robot.leftMotor.getCurrentPosition() < 5000 && robot.leftMotor.getCurrentPosition() < 5000) {
+                robot.leftMotor.setPower(1.0);
+                robot.rightMotor.setPower(1.0);
             }
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
@@ -132,8 +134,6 @@ public class HiveBotAutonomous1 extends LinearOpMode {
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             /*robot.waitForTick(40);
             */
-
-
 
         }}}
 

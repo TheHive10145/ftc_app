@@ -1,5 +1,41 @@
 /*
-Copyright (c) 2016 Robert Atkinson
+
+PROGRAMMING TEAM:
+
+Lead - Gus Gopher Lol
+Programmer - Anthony Denver RAFFLED
+
+BUILD TEAM:
+
+Builder - Luc Krishna's
+Builder - Nathan Vices
+Builder - Cabin Choir
+Builder - Logan Sober
+Builder - Nicholas Miller
+
+DESIGN TEAM:
+
+Designer - Elijah Polygon
+Assistant Designer - Luc Krishna's
+
+GAMING TEAM:
+
+Lead Gamer - Charley Davis
+Assistant Gamer - Bar Hodge
+
+MENTORS:
+
+Lead - Mike Dennis
+Programming and Design Mentor - Valid Polygon
+Programming Mentor - Aaron Elie "The Butt"
+Professional Breaker Mentor - Dan Denver
+
+
+
+
+
+
+Copyright (c) 2016 Robert Atkinson, The Hive Programming Team
 
 All rights reserved.
 
@@ -30,14 +66,12 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode.code;
+package org.firstinspires.ftc.teamcode.tele;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
 
 /**
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
@@ -45,30 +79,31 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * The code is structured as a LinearOpMode
  *
  * This particular OpMode executes a POV Game style Teleop for a PushBot
- * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
- * It raises and lowers the claw using the Gampad Y and A buttons respectively.
+ * It raises and lowers the claw using the Gampad Y and A buttons respectively. * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
+
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TheHive OpMode", group="Pushbot")
+@TeleOp(name="Mariposa Laser Tag Arena", group="Pushbot")
 //@Disabled
-public class PushbotTeleopPOV_Linear extends LinearOpMode {
+public class HiveBotTeleop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwarePushbot robot           = new HardwarePushbot();   // Use a Pushbot's hardware
+    HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
                                                                // could also use HardwarePushbotMatrix class.
     double          clawOffset      = 0;                       // Servo mid position
     final double    CLAW_SPEED      = 0.02 ;                   // sets rate to move servo
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double left;
-        double right;
+        double leftP;
+        double rightP;
         double max;
-        boolean aButton;
+        int spd_factor;
+        int inta;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -77,6 +112,7 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
+        telemetry.addData("Say", "Don't crash me I'm cooler than you and I'll sell you on eBay!");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -85,35 +121,46 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            /*
-            left  = gamepad1.left_stick_y; //Amount of Left Drive
-            right = gamepad1.right_stick_y; //Amount of Right Drive
+            //Get Y's
+            leftP = gamepad1.left_stick_y / 2; //Amount of Left Drive
+            rightP = gamepad1.right_stick_y / 2; //Amount of Right Drive
 
             // Normalize the values so neither exceed +/- 1.0
-            max = Math.max(Math.abs(left), Math.abs(right));
-            if (max > 1.0)
-            {
-                left /= max;
-                right /= max;
+            max = Math.max(Math.abs(leftP), Math.abs(rightP));
+            if (max > 1.0) {
+                leftP /= max;
+                rightP /= max;
             }
-            */
 
-            /*
-            robot.leftMotor.setPower(left); //Set to left drive
-            robot.rightMotor.setPower(right); // Set to right drive
-            */
+            //Speed Up
+            if (gamepad1.a) {
+                inta = 1;
+            } else {
+                inta = 0;
+            }
+
+            //Analyze inta
+            spd_factor = 1 + inta * 3;
+
+            //Oldspice variable
+            if (!gamepad1.b) {
+                robot.leftMotor.setPower((leftP / 2) * spd_factor); //Set to left drive
+                robot.rightMotor.setPower((rightP / 2) * spd_factor); // Set to right drive
+            } else {
+                robot.leftMotor.setPower(0.0);
+                robot.rightMotor.setPower(0.0);
+            }
 
             // Use gamepad left & right Bumpers to open and close the claw
-            /* if (gamepad1.right_bumper)
+           /* if (gamepad1.right_bumper)
                 clawOffset += CLAW_SPEED;
             else if (gamepad1.left_bumper)
                 clawOffset -= CLAW_SPEED;
-            */
 
             // Move both servos to new position.  Assume servos are mirror image of each other.
-            //clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-            //robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-            //robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
+            clawOffset = Range.clip(clawOffset, -0.5, 0.5);
+            robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
+            robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
 
             /* Use gamepad buttons to move arm up (Y) and down (A)
             if (gamepad1.y)
@@ -123,21 +170,20 @@ public class PushbotTeleopPOV_Linear extends LinearOpMode {
             else
                 robot.armMotor.setPower(0.0);
             */
-
-            aButton = gamepad1.a;
-
-            if (!aButton) {
-                robot.leftMotor.setPower(0.0);
-            } else {
-                robot.leftMotor.setPower(1.0);
-            }
-
-
-            telemetry.addData("Say",  "Running Robot.");
+             // Send telemetry message to signify robot running;
+             /*   telemetry.addData("claw",  "Offset = %.2f", clawOffset);
+            telemetry.addData("left",  "%.2f", left);
+            */
+            telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
+            telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
+            telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, SCREW YOU AARON");
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
-            robot.waitForTick(40);
-        }
-    }
-}
+            /*robot.waitForTick(40);
+            */
+
+
+
+        }}}
+
