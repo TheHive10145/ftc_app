@@ -68,12 +68,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
@@ -91,7 +88,7 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 @TeleOp(name="Mariposa Laser Tag Arena", group="Pushbot")
 //@Disabled
-public class HiveBot extends LinearOpMode {
+public class HiveBotAutonomous1 extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
@@ -101,11 +98,8 @@ public class HiveBot extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double leftP;
-        double rightP;
-        double max;
-        int spd_factor;
-        int inta;
+
+        ElapsedTime timer = new ElapsedTime(0);
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -122,62 +116,17 @@ public class HiveBot extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            //Get Y's
-            leftP = gamepad1.left_stick_y / 2; //Amount of Left Drive
-            rightP = gamepad1.right_stick_y / 2; //Amount of Right Drive
-
-            // Normalize the values so neither exceed +/- 1.0
-            max = Math.max(Math.abs(leftP), Math.abs(rightP));
-            if (max > 1.0) {
-                leftP /= max;
-                rightP /= max;
+            double positions[] = {0.0,0.5,1.0};
+            int index = 0;
+            if (timer.time() >= 0.5 && index < positions.length) {
+                timer.reset();
+                robot.shooterServo.setPosition(positions[index]);
+                index++;
             }
 
-            //Speed Up
-            if (gamepad1.a) {
-                inta = 1;
-            } else {
-                inta = 0;
-            }
-
-            //Analyze inta
-            spd_factor = 1 + inta * 3;
-
-            //Oldspice variable
-            if (!gamepad1.b) {
-                robot.leftMotor.setPower((leftP / 2) * spd_factor); //Set to left drive
-                robot.rightMotor.setPower((rightP / 2) * spd_factor); // Set to right drive
-            } else {
-                robot.leftMotor.setPower(0.0);
-                robot.rightMotor.setPower(0.0);
-            }
-
-            // Use gamepad left & right Bumpers to open and close the claw
-           /* if (gamepad1.right_bumper)
-                clawOffset += CLAW_SPEED;
-            else if (gamepad1.left_bumper)
-                clawOffset -= CLAW_SPEED;
-
-            // Move both servos to new position.  Assume servos are mirror image of each other.
-            clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-            robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-            robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
-
-            /* Use gamepad buttons to move arm up (Y) and down (A)
-            if (gamepad1.y)
-                robot.armMotor.setPower(robot.ARM_UP_POWER);
-            else if (gamepad1.a)
-                robot.armMotor.setPower(robot.ARM_DOWN_POWER);
-            else
-                robot.armMotor.setPower(0.0);
-            */
-             // Send telemetry message to signify robot running;
-             /*   telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-            telemetry.addData("left",  "%.2f", left);
-            */
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
-            telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, SCREW YOU AARON");
+            telemetry.addData("Say", "I am a sentient being.");
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
