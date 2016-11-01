@@ -73,29 +73,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
 
-/**
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
- * All device access is managed through the HardwarePushbot class.
- * The code is structured as a LinearOpMode
- *
- * This particular OpMode executes a POV Game style Teleop for a PushBot
- * It raises and lowers the claw using the Gampad Y and A buttons respectively. * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
-
- * It also opens and closes the claws slowly using the left and right Bumper buttons.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
-@TeleOp(name="Mariposa Laser Tag Arena", group="Pushbot")
+@TeleOp(name = "Mariposa Laser Tag Arena", group = "Pushbot")
 //@Disabled
 public class HiveBotTeleop extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
-                                                               // could also use HardwarePushbotMatrix class.
-    double          clawOffset      = 0;                       // Servo mid position
-    final double    CLAW_SPEED      = 0.02 ;                   // sets rate to move servo
+    HardwareHiveBot robot = new HardwareHiveBot();   // Use a Pushbot's hardware
+    // could also use HardwarePushbotMatrix class.
+    double clawOffset = 0;                       // Servo mid position
+    final double CLAW_SPEED = 0.02;                   // sets rate to move servo
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -127,13 +113,13 @@ public class HiveBotTeleop extends LinearOpMode {
 
             // Normalize the values so neither exceed +/- 1.0
             max = Math.max(Math.abs(leftP), Math.abs(rightP));
-            if (max > 1.0) {
+            if (max > 2.0) {
                 leftP /= max;
                 rightP /= max;
             }
 
             //Speed Up
-            if (gamepad1.a) {
+            if (gamepad1.right_bumper) {
                 inta = 1;
             } else {
                 inta = 0;
@@ -143,37 +129,21 @@ public class HiveBotTeleop extends LinearOpMode {
             spd_factor = 1 + inta * 3;
 
             //Oldspice variable
-            if (!gamepad1.b) {
-                robot.leftMotor.setPower((leftP / 2) * spd_factor); //Set to left drive
-                robot.rightMotor.setPower((rightP / 2) * spd_factor); // Set to right drive
+            if (!gamepad1.left_bumper) {
+
+                if (leftP > 0.0 || rightP > 0.0 && !(leftP > 0.0 && rightP > 0.0)) {
+                    robot.leftMotor.setPower(leftP * 2); //Set to left drive
+                    robot.rightMotor.setPower(rightP * 2); // Set to right drive
+                } else {
+                    robot.leftMotor.setPower((leftP / 2) * spd_factor); //Set to left drive
+                    robot.rightMotor.setPower((rightP / 2) * spd_factor); // Set to right drive
+                }
+
             } else {
                 robot.leftMotor.setPower(0.0);
                 robot.rightMotor.setPower(0.0);
             }
 
-            // Use gamepad left & right Bumpers to open and close the claw
-           /* if (gamepad1.right_bumper)
-                clawOffset += CLAW_SPEED;
-            else if (gamepad1.left_bumper)
-                clawOffset -= CLAW_SPEED;
-
-            // Move both servos to new position.  Assume servos are mirror image of each other.
-            clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-            robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-            robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
-
-            /* Use gamepad buttons to move arm up (Y) and down (A)
-            if (gamepad1.y)
-                robot.armMotor.setPower(robot.ARM_UP_POWER);
-            else if (gamepad1.a)
-                robot.armMotor.setPower(robot.ARM_DOWN_POWER);
-            else
-                robot.armMotor.setPower(0.0);
-            */
-             // Send telemetry message to signify robot running;
-             /*   telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-            telemetry.addData("left",  "%.2f", left);
-            */
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
             telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, SCREW YOU AARON");
@@ -184,6 +154,7 @@ public class HiveBotTeleop extends LinearOpMode {
             */
 
 
-
-        }}}
+        }
+    }
+}
 
