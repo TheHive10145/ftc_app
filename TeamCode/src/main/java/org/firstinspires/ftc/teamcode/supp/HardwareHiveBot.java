@@ -15,6 +15,7 @@ package org.firstinspires.ftc.teamcode.supp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -34,6 +35,7 @@ public class HardwareHiveBot
     public DcMotor  leftMotor   = null;
     public DcMotor  rightMotor  = null;
     public Servo  shooterServo  = null;
+    public TouchSensor button   = null;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;

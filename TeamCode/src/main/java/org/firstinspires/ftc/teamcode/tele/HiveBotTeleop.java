@@ -21,12 +21,12 @@ Assistant Designer - Luc Krishna's
 GAMING TEAM:
 
 Lead Gamer - Charley Davis
-Assistant Gamer - Bar Hodge
+Unsuccessfully Trying - Bar Hodge
 
 MENTORS:
 
 Lead - Mike Dennis
-Programming and Design Mentor - Valid Polygon
+Git and Design Mentor - Valid Polygon
 Programming Mentor - Aaron Elie "The Butt"
 Professional Breaker Mentor - Dan Denver
 
@@ -146,6 +146,7 @@ public class HiveBotTeleop extends LinearOpMode {
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
+            telemetry.addData("Say", String.valueOf(robot.button.isPressed()));
             telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, SCREW YOU AARON");
             telemetry.update();
 
