@@ -147,7 +147,7 @@ public class HiveBotTeleop extends LinearOpMode {
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
             telemetry.addData("Say", String.valueOf(robot.button.isPressed()));
-            telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, SCREW YOU AARON");
+            telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, WE HAVE A STRONG AVERSION TO YOU AND WANT UNICORNS TO IMPALE YOU THROUGH THE HEART, AARON");
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
