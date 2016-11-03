@@ -55,6 +55,7 @@ public class HardwareHiveBot
         leftMotor   = hwMap.dcMotor.get("left_drive"); //Name
         rightMotor  = hwMap.dcMotor.get("right_drive"); //Name
         shooterServo  = hwMap.servo.get("shooter_servo"); //Name
+        button = hwMap.touchSensor.get("button");
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
