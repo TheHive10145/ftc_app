@@ -21,12 +21,12 @@ Assistant Designer - Luc Krishna's
 GAMING TEAM:
 
 Lead Gamer - Charley Davis
-Unsuccessfully Trying - Bar Hodge
+Assistant Gamer - Bar Hodge
 
 MENTORS:
 
 Lead - Mike Dennis
-Git and Design Mentor - Valid Polygon
+Programming and Design Mentor - Valid Polygon
 Programming Mentor - Aaron Elie "The Butt"
 Professional Breaker Mentor - Dan Denver
 
@@ -66,32 +66,47 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-package org.firstinspires.ftc.teamcode.tele;
+package org.firstinspires.ftc.teamcode.auto;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.supp.Drive;
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
+import org.firstinspires.ftc.teamcode.supp.ServoMap;
 
-@TeleOp(name = "Mariposa Laser Tag Arena", group = "Pushbot")
-//@Disabled
-public class HiveBotTeleop extends LinearOpMode {
+/**
+ * This OpMode uses the common Pushbot hardware class to defined the devices on the robot.
+ * All device access is managed through the HardwarePushbot class.
+ * The code is structured as a LinearOpMode
+ *
+ * This particular OpMode executes a POV Game style Teleop for a PushBot
+ * It raises and lowers the claw using the Gampad Y and A buttons respectively. * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
+
+ * It also opens and closes the claws slowly using the left and right Bumper buttons.
+ *
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ */
+
+@Autonomous(name="Cap Ball Autonomous", group="Pushbot")
+//@Disabled // Remove if you want to disable this for some obscure reason
+public class HiveBotAutonomousCapBall extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareHiveBot robot = new HardwareHiveBot();   // Use a Pushbot's hardware
-    Drive DRIVE = new Drive();
-    // could also use HardwarePushbotMatrix class.
-    double clawOffset = 0;                       // Servo mid position
-    final double CLAW_SPEED = 0.02;                   // sets rate to move servo
+    HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
+                                                               // could also use HardwarePushbotMatrix class.
+    double          clawOffset      = 0;                       // Servo mid position
+    final double    CLAW_SPEED      = 0.02 ;                    // sets rate to move servo
+
+    ServoMap Serv = new ServoMap();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double leftP;
-        double rightP;
-        double max;
-        int spd_factor;
-        int inta;
+
+        ElapsedTime timer = new ElapsedTime(0);
+        Drive DRIVE = new Drive();
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -100,7 +115,6 @@ public class HiveBotTeleop extends LinearOpMode {
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
-        telemetry.addData("Say", "Don't crash me I'm cooler than you and I'll sell you on eBay!");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -109,55 +123,19 @@ public class HiveBotTeleop extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            //Get Y's
-            leftP = gamepad1.left_stick_y / 2; //Amount of Left Drive
-            rightP = gamepad1.right_stick_y / 2; //Amount of Right Drive
-
-            // Normalize the values so neither exceed +/- 1.0
-            max = Math.max(Math.abs(leftP), Math.abs(rightP));
-            if (max > 2.0) {
-                leftP /= max;
-                rightP /= max;
-            }
-
-            //Speed Up
-            if (gamepad1.right_bumper) {
-                inta = 1;
-            } else {
-                inta = 0;
-            }
-
-            //Analyze inta
-            spd_factor = 1 + inta * 3;
-
-            //Oldspice variable
-            if (!gamepad1.left_bumper) {
-
-                if (leftP > 0.0 || rightP > 0.0 && !(leftP > 0.0 && rightP > 0.0)) {
-                    DRIVE.controlLeft(leftP * 2); //Set to left drive
-                    DRIVE.controlRight(rightP * 2); // Set to right drive
-                } else {
-                    DRIVE.controlLeft((leftP / 2) * spd_factor); //Set to left drive
-                    DRIVE.controlLeft((rightP / 2) * spd_factor); // Set to right drive
-                }
-
-            } else {
-                DRIVE.controlLeft(0.0);
-                DRIVE.controlRight(0.0);
+            if (robot.leftMotor.getCurrentPosition() < 5000 && robot.leftMotor.getCurrentPosition() < 5000) {
+                DRIVE.controlLeft(1.0);
+                DRIVE.controlRight(1.0);
             }
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
-            telemetry.addData("Say", String.valueOf(robot.button.isPressed()));
-            telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, WE HAVE A STRONG AVERSION TO YOU AND WANT UNICORNS TO IMPALE YOU THROUGH THE HEART, AARON");
+            telemetry.addData("Say", "I am a sentient being.");
             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             /*robot.waitForTick(40);
             */
 
-
-        }
-    }
-}
+        }}}
 

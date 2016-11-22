@@ -72,6 +72,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.supp.Drive;
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
 import org.firstinspires.ftc.teamcode.supp.ServoMap;
 
@@ -89,9 +90,9 @@ import org.firstinspires.ftc.teamcode.supp.ServoMap;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous 1", group="Pushbot")
-//@Disabled
-public class HiveBotAutonomous1 extends LinearOpMode {
+@Autonomous(name="Cap Ball Autonomous", group="Pushbot")
+//@Disabled // Remove if you want to disable this for some obscure reason
+public class HiveBotAutonomousShooter extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
@@ -105,6 +106,7 @@ public class HiveBotAutonomous1 extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         ElapsedTime timer = new ElapsedTime(0);
+        Drive DRIVE = new Drive();
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -122,8 +124,8 @@ public class HiveBotAutonomous1 extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (robot.leftMotor.getCurrentPosition() < 5000 && robot.leftMotor.getCurrentPosition() < 5000) {
-                robot.leftMotor.setPower(1.0);
-                robot.rightMotor.setPower(1.0);
+                DRIVE.controlLeft(1.0);
+                DRIVE.controlRight(1.0);
             }
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
