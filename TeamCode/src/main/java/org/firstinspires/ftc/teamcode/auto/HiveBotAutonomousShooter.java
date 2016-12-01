@@ -71,10 +71,12 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.supp.Drive;
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
 import org.firstinspires.ftc.teamcode.supp.ServoMap;
+import org.firstinspires.ftc.teamcode.supp.ShootMotors;
 
 /**
  * This OpMode uses the common Pushbot hardware class to defined the devices on the robot.
@@ -100,13 +102,17 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
     double          clawOffset      = 0;                       // Servo mid position
     final double    CLAW_SPEED      = 0.02 ;                    // sets rate to move servo
 
-    ServoMap Serv = new ServoMap();
-
     @Override
     public void runOpMode() throws InterruptedException {
 
         ElapsedTime timer = new ElapsedTime(0);
         Drive DRIVE = new Drive();
+        ShootMotors shooter = new ShootMotors();
+        Servo trigger = robot.shooterServo;
+        ServoMap Serv = new ServoMap();
+        boolean bandf = false;
+        int shooterDir = 1; // Either 1 or -1
+        boolean f = true; // First cycle
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -117,16 +123,15 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
         telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
         telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        // Wait for the game to start (driver presses PLAY)
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            if (robot.leftMotor.getCurrentPosition() < 5000 && robot.leftMotor.getCurrentPosition() < 5000) {
-                DRIVE.controlLeft(1.0);
-                DRIVE.controlRight(1.0);
-            }
+            ShootMotors shooters = new ShootMotors();
+
+            shooters.bundledShoot();
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());

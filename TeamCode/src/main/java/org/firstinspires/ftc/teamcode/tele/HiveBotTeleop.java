@@ -73,6 +73,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.supp.Drive;
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
+import org.firstinspires.ftc.teamcode.supp.ShootMotors;
 
 @TeleOp(name = "Mariposa Laser Tag Arena", group = "Pushbot")
 //@Disabled
@@ -84,6 +85,7 @@ public class HiveBotTeleop extends LinearOpMode {
     // could also use HardwarePushbotMatrix class.
     double clawOffset = 0;                       // Servo mid position
     final double CLAW_SPEED = 0.02;                   // sets rate to move servo
+    ShootMotors shooters = new ShootMotors();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -146,6 +148,10 @@ public class HiveBotTeleop extends LinearOpMode {
                 DRIVE.controlRight(0.0);
             }
 
+            if (gamepad1.y) { // Shooty da ballballs XDDDDDDDDDDDDDDDDDDDDDD
+                shooters.bundledShoot();
+            }
+
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
             telemetry.addData("Say", String.valueOf(robot.button.isPressed()));
@@ -155,7 +161,6 @@ public class HiveBotTeleop extends LinearOpMode {
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             /*robot.waitForTick(40);
             */
-
 
         }
     }

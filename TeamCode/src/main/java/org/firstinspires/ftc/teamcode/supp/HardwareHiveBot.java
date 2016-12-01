@@ -32,9 +32,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareHiveBot
 {
     /* Public OpMode members. */
+
+    // Drives
     public DcMotor  leftMotor   = null;
     public DcMotor  rightMotor  = null;
+
+    // Shooter
     public Servo  shooterServo  = null;
+    public DcMotor shootMotor_1 = null;
+    public DcMotor shootMotor_2 = null;
+
     public TouchSensor button   = null;
 
     /* local OpMode members. */
@@ -52,9 +59,17 @@ public class HardwareHiveBot
         hwMap = ahwMap;
 
         // Define and Initialize Motors
+
+        // Drives
         leftMotor   = hwMap.dcMotor.get("left_drive"); //Name
         rightMotor  = hwMap.dcMotor.get("right_drive"); //Name
+
+        // Shooter
         shooterServo  = hwMap.servo.get("shooter_servo"); //Name
+        shootMotor_1  = hwMap.dcMotor.get("shootMotor1"); //Name
+        shootMotor_2  = hwMap.dcMotor.get("shootMotor2"); //Name
+
+
         button = hwMap.touchSensor.get("button");
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
