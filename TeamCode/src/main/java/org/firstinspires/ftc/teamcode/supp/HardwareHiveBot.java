@@ -42,8 +42,6 @@ public class HardwareHiveBot
     public DcMotor shootMotor_1 = null;
     public DcMotor shootMotor_2 = null;
 
-    public TouchSensor button   = null;
-
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
@@ -58,8 +56,7 @@ public class HardwareHiveBot
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
-
+        // Define and Initialize Motor
         // Drives
         leftMotor   = hwMap.dcMotor.get("left_drive"); //Name
         rightMotor  = hwMap.dcMotor.get("right_drive"); //Name
@@ -70,7 +67,6 @@ public class HardwareHiveBot
         shootMotor_2  = hwMap.dcMotor.get("shootMotor2"); //Name
 
 
-        button = hwMap.touchSensor.get("button");
         leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 

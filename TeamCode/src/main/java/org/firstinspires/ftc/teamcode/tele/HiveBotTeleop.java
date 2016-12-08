@@ -99,10 +99,11 @@ public class HiveBotTeleop extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-
+        telemetry.addData("say","Init() Succeeded");
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
-        telemetry.addData("Say", "Don't crash me I'm cooler than you and I'll sell you on eBay!");
+        //telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
+        //telemetry.addData("Say", "Don't crash me I'm cooler than you and I'll sell you on eBay!");
+        telemetry.addData("say","Update() Succeeded");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -110,11 +111,11 @@ public class HiveBotTeleop extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            telemetry.addData("say", "Op is active")
             //Get Y's
             leftP = gamepad1.left_stick_y / 2; //Amount of Left Drive
             rightP = gamepad1.right_stick_y / 2; //Amount of Right Drive
-
+            telemetry.addData("Say","gamepads read")
             // Normalize the values so neither exceed +/- 1.0
             max = Math.max(Math.abs(leftP), Math.abs(rightP));
             if (max > 2.0) {
@@ -132,31 +133,28 @@ public class HiveBotTeleop extends LinearOpMode {
             //Analyze inta
             spd_factor = 1 + inta * 3;
 
-            //Oldspice variable
-            if (!gamepad1.left_bumper) {
+             if (!gamepad1.left_bumper) {
 
                 if (leftP > 0.0 || rightP > 0.0 && !(leftP > 0.0 && rightP > 0.0)) {
-                    DRIVE.controlLeft(leftP * 2); //Set to left drive
-                    DRIVE.controlRight(rightP * 2); // Set to right drive
+                    DRIVE.controlLeft((double) leftP * 2); //Set to left drive
+                    DRIVE.controlRight((double) rightP * 2); // Set to right drive
                 } else {
-                    DRIVE.controlLeft((leftP / 2) * spd_factor); //Set to left drive
-                    DRIVE.controlLeft((rightP / 2) * spd_factor); // Set to right drive
+                    DRIVE.controlLeft((double) (leftP / 2) * spd_factor); //Set to left drive
+                    DRIVE.controlLeft((double) (rightP / 2) * spd_factor); // Set to right drive
                 }
 
             } else {
-                DRIVE.controlLeft(0.0);
-                DRIVE.controlRight(0.0);
+                DRIVE.controlLeft((double) 0.0);
+                DRIVE.controlRight((double) 0.0);
             }
 
-            if (gamepad1.y) { // Shooty da ballballs XDDDDDDDDDDDDDDDDDDDDDD
+            if (gamepad1.y) {
                 shooters.bundledShoot();
             }
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
-            telemetry.addData("Say", String.valueOf(robot.button.isPressed()));
-            telemetry.addData("Say", "KNEE DEEP IN THE HOOPLA, WE HAVE A STRONG AVERSION TO YOU AND WANT UNICORNS TO IMPALE YOU THROUGH THE HEART, AARON");
-            telemetry.update();
+             telemetry.update();
 
             // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
             /*robot.waitForTick(40);

@@ -92,7 +92,7 @@ import org.firstinspires.ftc.teamcode.supp.ShootMotors;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Cap Ball Autonomous", group="Pushbot")
+@Autonomous(name="Shooter Autonomous", group="Pushbot")
 //@Disabled // Remove if you want to disable this for some obscure reason
 public class HiveBotAutonomousShooter extends LinearOpMode {
 
