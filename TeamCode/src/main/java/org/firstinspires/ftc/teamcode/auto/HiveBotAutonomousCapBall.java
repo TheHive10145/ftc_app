@@ -88,6 +88,7 @@ import org.firstinspires.ftc.teamcode.supp.ServoMap;
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * Griffin had nothing to do with this code. if it breaks, it's not his fault
  */
 
 @Autonomous(name="Cap Ball Autonomous", group="Pushbot")
@@ -124,8 +125,8 @@ public class HiveBotAutonomousCapBall extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (robot.leftMotor.getCurrentPosition() < 5000 && robot.leftMotor.getCurrentPosition() < 5000) {
-                DRIVE.controlLeft(1.0);
-                DRIVE.controlRight(1.0);
+                DRIVE.controlLeft(1.0, robot);
+                DRIVE.controlRight(1.0, robot);
             }
 
             telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());

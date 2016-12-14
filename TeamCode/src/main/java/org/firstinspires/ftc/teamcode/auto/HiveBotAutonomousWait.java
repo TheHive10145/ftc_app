@@ -92,55 +92,11 @@ import org.firstinspires.ftc.teamcode.supp.ShootMotors;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Shooter Autonomous", group="Pushbot")
+@Autonomous(name="NULL", group="Pushbot")
 //@Disabled // Remove if you want to disable this for some obscure reason
-public class HiveBotAutonomousShooter extends LinearOpMode {
-
-    /* Declare OpMode members. */
-    HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
-                                                               // could also use HardwarePushbotMatrix class.
-    double          clawOffset      = 0;                       // Servo mid position
-    final double    CLAW_SPEED      = 0.02 ;                    // sets rate to move servo
+public class HiveBotAutonomousWait extends LinearOpMode {
 
     @Override
-    public void runOpMode() throws InterruptedException {
-
-        ElapsedTime timer = new ElapsedTime(0);
-        Drive DRIVE = new Drive();
-        ShootMotors shooter = new ShootMotors(robot);
-        Servo trigger = robot.shooterServo;
-        ServoMap Serv = new ServoMap();
-        boolean bandf = false;
-        int shooterDir = 1; // Either 1 or -1
-        boolean f = true; // First cycle
-
-        /* Initialize the hardware variables.
-         * The init() method of the hardware class does all the work here
-         */
-        robot.init(hardwareMap);
-
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
-        telemetry.update();
-
-        waitForStart();
-        // Wait for the game to start (driver presses PLAY)
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-
-            shooter.bundledShoot();
-
-            telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
-            telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
-            telemetry.addData("Say", "I am a sentient being.");
-            telemetry.update();
-
-            // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
-            /*robot.waitForTick(40);
-            */
-
-        }}
-
+    public void runOpMode() throws InterruptedException {}
 }
 

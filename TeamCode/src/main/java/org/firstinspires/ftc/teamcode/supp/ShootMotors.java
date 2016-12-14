@@ -12,6 +12,10 @@ public class ShootMotors {
     ServoMap Serv = new ServoMap();
     ElapsedTime timer = new ElapsedTime();
 
+    public ShootMotors(HardwareHiveBot robot) {
+        this.robot = robot;
+    }
+
     public void go() {
         robot.shootMotor_1.setPower(1.0);
         robot.shootMotor_2.setPower(1.0);
@@ -24,7 +28,7 @@ public class ShootMotors {
 
     public void shoot() {
         /* Assumes in off direction */
-        Serv.rotation(30, robot.shooterServo);
+        robot.
         while (timer.milliseconds() < 500) {
             // Nothing, a delay ...
             // Maybe ...
