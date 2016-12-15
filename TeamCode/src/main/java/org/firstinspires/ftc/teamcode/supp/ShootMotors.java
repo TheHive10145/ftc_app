@@ -17,8 +17,8 @@ public class ShootMotors {
     }
 
     public void go() {
-        robot.shootMotor_1.setPower(1.0);
-        robot.shootMotor_2.setPower(1.0);
+        robot.shootMotor_1.setPower(10.0);
+        robot.shootMotor_2.setPower(10.0);
     }
 
     public void stop() {
