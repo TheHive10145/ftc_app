@@ -17,8 +17,8 @@ public class ShootMotors {
     }
 
     public void go() {
-        robot.shootMotor_1.setPower(1.0);
-        robot.shootMotor_2.setPower(1.0);
+        robot.shootMotor_1.setPower(0.9);
+        robot.shootMotor_2.setPower(0.9);
     }
 
     public void stop() {
@@ -28,7 +28,7 @@ public class ShootMotors {
 
     public void shoot() {
         /* Assumes in off direction */
-        robot.
+        Serv.rotation(30, robot.shooterServo);
         while (timer.milliseconds() < 500) {
             // Nothing, a delay ...
             // Maybe ...
