@@ -12,7 +12,10 @@ rightMotor = ""
 
 package org.firstinspires.ftc.teamcode.supp;
 
+import android.os.Looper;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -78,6 +81,9 @@ public class HardwareHiveBot
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        shootMotor_1.setMaxSpeed(4000);
+        shootMotor_2.setMaxSpeed(4000);
     }
 
     /***

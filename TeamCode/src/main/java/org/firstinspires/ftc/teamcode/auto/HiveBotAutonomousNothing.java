@@ -49,7 +49,7 @@ import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
 
 @Autonomous(name="Cap Ball Autonomous", group="Pushbot")
 //@Disabled // Remove if you want to disable this for some obscure reason
-public class HiveBotAutonomousCapBall extends LinearOpMode {
+public class HiveBotAutonomousNothing extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareHiveBot robot           = new HardwareHiveBot();
