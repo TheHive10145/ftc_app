@@ -49,8 +49,8 @@ public class HiveBotTeleop extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        telemetry.addData("say", "Init() Succeeded");
-        telemetry.addData("say", "Update() Succeeded");
+        telemetry.addData("Boot Seq.", "Init() Succeeded");
+        telemetry.addData("Boot Seq.", "Update() Succeeded");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -58,22 +58,32 @@ public class HiveBotTeleop extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            telemetry.addData("say", "Op is active");
-            telemetry.update();
-
-            telemetry.addData("Say", "Go " +
-                    "gamepads read");
+            //telemetry.addData("Status", "Op is active");
             telemetry.update();
 
             DRIVE.controlLeft((double) gamepad1.left_stick_y);
             DRIVE.controlRight((double) gamepad1.right_stick_y);
 
             if (gamepad1.y) {
-                shooters.bundledShoot();
+                robot.shooterServo.setPosition(5);
+                telemetry.addData("Status", "Y detected/pressed");
+            } else {
+                robot.shooterServo.setPosition(0);
+                telemetry.addData("Status", "[[NOT]] Y detected/pressed");
             }
 
-            telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
-            telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
+            if (gamepad1.left_bumper) {
+                robot.shootMotor_1.setPower(1.0);
+                robot.shootMotor_2.setPower(1.0);
+            } else {
+                robot.shootMotor_1.setPower(0.0);
+                robot.shootMotor_2.setPower(0.0);
+            }
+
+            telemetry.addData("Status", "Right Drive Val: " + robot.rightMotor.getCurrentPosition());
+            telemetry.addData("Status", "Left Drive Val: " + robot.leftMotor.getCurrentPosition());
+            telemetry.addData("Status", "Shooter Servo Val: " + robot.shooterServo.getPosition());
+            telemetry.addData("Status", "Shooter Servo Port: " + robot.shooterServo.getPortNumber());
             telemetry.update();
 
         }
