@@ -35,22 +35,22 @@ import org.firstinspires.ftc.teamcode.supp.ShootMotors;
  * This OpMode uses the common Pushbot hardware class to defined the devices on the robot.
  * All device access is managed through the HardwarePushbot class.
  * The code is structured as a LinearOpMode
- *
+ * <p>
  * This particular OpMode executes a POV Game style Teleop for a PushBot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively. * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
-
+ * <p>
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
- *
+ * <p>
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Shooter Autonomous", group="Pushbot")
+@Autonomous(name = "Shooter Autonomous", group = "Pushbot")
 //@Disabled // Remove if you want to disable this for some obscure reason
 public class HiveBotAutonomousShooter extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareHiveBot robot           = new HardwareHiveBot();   // Use a Pushbot's hardware
+    HardwareHiveBot robot = new HardwareHiveBot();   // Use a Pushbot's hardware
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -69,21 +69,24 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
         waitForStart();
         // Wait for the game to start (driver presses PLAY)
 
-        // run until the end of the match (driver presses STOP)
+        robot.shootMotor_1.setPower(1.0);
+        robot.shootMotor_2.setPower(1.0);
+
+        robot.shooterServo.setPosition(5);
+        telemetry.addData("Status", "Setting Position");
+
+        robot.shooterServo.setPosition(0);
+        telemetry.addData("Status", "Returning");
+
+        robot.shootMotor_1.setPower(0.0);
+        robot.shootMotor_2.setPower(0.0);
+
         while (opModeIsActive()) {
 
-            shooter.bundledShoot();
+            // Null the void
 
-            telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
-            telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
-            telemetry.addData("Say", "I am a sentient being.");
-            telemetry.update();
+        }
 
-            // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
-            /*robot.waitForTick(40);
-            */
-
-        }}
-
+    }
 }
 
