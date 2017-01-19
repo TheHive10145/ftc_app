@@ -52,6 +52,8 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
     /* Declare OpMode members. */
     HardwareHiveBot robot = new HardwareHiveBot();   // Use a Pushbot's hardware
 
+    int tick = 0;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -69,21 +71,42 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
         waitForStart();
         // Wait for the game to start (driver presses PLAY)
 
-        robot.shootMotor_1.setPower(1.0);
-        robot.shootMotor_2.setPower(1.0);
-
-        robot.shooterServo.setPosition(5);
-        telemetry.addData("Status", "Setting Position");
-
-        robot.shooterServo.setPosition(0);
-        telemetry.addData("Status", "Returning");
-
-        robot.shootMotor_1.setPower(0.0);
-        robot.shootMotor_2.setPower(0.0);
-
         while (opModeIsActive()) {
 
-            // Null the void
+            tick++;
+
+            if (tick < 10000) {
+                robot.shootMotor_1.setPower(1.0);
+                robot.shootMotor_2.setPower(1.0);
+            }
+
+            if (tick > 10000 && tick < 30000) {
+                robot.shooterServo.setPosition(5);
+                telemetry.addData("Status", "Setting Position - UP 1");
+            }
+
+            if (tick > 30000 && tick < 50000) {
+                robot.shooterServo.setPosition(0);
+                telemetry.addData("Status", "Returning");
+            }
+
+            if (tick > 55000 && tick < 75000) {
+                robot.shooterServo.setPosition(5);
+                telemetry.addData("Status", "Setting Position - UP 2");
+            }
+
+            if (tick > 75000 && tick < 95000) {
+                robot.shooterServo.setPosition(0);
+                telemetry.addData("Status", "Returning");
+            }
+
+            if (tick > 95000) {
+                robot.shootMotor_1.setPower(0.0);
+                robot.shootMotor_2.setPower(0.0);
+            }
+
+            telemetry.addData("Tick:", tick);
+            telemetry.update();
 
         }
 
