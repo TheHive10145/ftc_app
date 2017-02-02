@@ -29,7 +29,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
-import org.firstinspires.ftc.teamcode.supp.ShootMotors;
 
 /**
  * This OpMode uses the common Pushbot hardware class to defined the devices on the robot.
@@ -57,8 +56,6 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        ShootMotors shooter = new ShootMotors(robot);
-
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -76,7 +73,7 @@ public class HiveBotAutonomousShooter extends LinearOpMode {
             tick++;
 
             if (tick < 10000) {
-                robot.shootMotor_1.setPower(1.0);
+                robot.shootMotor_1.setPower(-1.0);
                 robot.shootMotor_2.setPower(1.0);
             }
 

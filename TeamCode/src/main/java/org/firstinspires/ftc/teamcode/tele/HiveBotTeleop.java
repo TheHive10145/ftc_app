@@ -29,9 +29,7 @@ package org.firstinspires.ftc.teamcode.tele;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.supp.Drive;
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
-import org.firstinspires.ftc.teamcode.supp.ShootMotors;
 
 @TeleOp(name = "Mariposa Laser Tag Arena", group = "Pushbot")
 //@Disabled
@@ -39,8 +37,6 @@ public class HiveBotTeleop extends LinearOpMode {
 
     /* Declare OpMode members. */
     HardwareHiveBot robot = new HardwareHiveBot();
-    Drive DRIVE = new Drive(robot);
-    ShootMotors shooters = new ShootMotors(robot);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,8 +57,8 @@ public class HiveBotTeleop extends LinearOpMode {
             //telemetry.addData("Status", "Op is active");
             telemetry.update();
 
-            DRIVE.controlLeft((double) gamepad1.left_stick_y);
-            DRIVE.controlRight((double) gamepad1.right_stick_y);
+            robot.leftMotor.setPower(-gamepad1.left_stick_y);
+            robot.rightMotor.setPower(-gamepad1.right_stick_y);
 
             if (gamepad1.y) {
                 robot.shooterServo.setPosition(5);
@@ -73,15 +69,29 @@ public class HiveBotTeleop extends LinearOpMode {
             }
 
             if (gamepad1.left_bumper) {
-                robot.shootMotor_1.setPower(1.0);
+                robot.shootMotor_1.setPower(-1.0);
                 robot.shootMotor_2.setPower(1.0);
             } else {
                 robot.shootMotor_1.setPower(0.0);
                 robot.shootMotor_2.setPower(0.0);
             }
 
+            if (gamepad1.dpad_up) {
+                robot.forkliftMotor.setPower(1.0);
+            }
+
+            if (gamepad1.dpad_down) {
+                robot.forkliftMotor.setPower(-1.0);
+            }
+
+            if (!gamepad1.dpad_up && !gamepad1.dpad_down) {
+                robot.forkliftMotor.setPower(0.0);
+            }
+
             telemetry.addData("Status", "Right Drive Val: " + robot.rightMotor.getCurrentPosition());
             telemetry.addData("Status", "Left Drive Val: " + robot.leftMotor.getCurrentPosition());
+            telemetry.addData("Status", "Shoot Motor 1 Power: " + robot.shootMotor_1.getPower());
+            telemetry.addData("Status", "Shoot Motor 2 Power: " + robot.shootMotor_2.getPower());
             telemetry.addData("Status", "Shooter Servo Val: " + robot.shooterServo.getPosition());
             telemetry.addData("Status", "Shooter Servo Port: " + robot.shooterServo.getPortNumber());
             telemetry.update();

@@ -27,38 +27,34 @@ package org.firstinspires.ftc.teamcode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.supp.Drive;
 import org.firstinspires.ftc.teamcode.supp.HardwareHiveBot;
 
 /**
  * This OpMode uses the common Pushbot hardware class to defined the devices on the robot.
  * All device access is managed through the HardwarePushbot class.
  * The code is structured as a LinearOpMode
- *
+ * <p>
  * This particular OpMode executes a POV Game style Teleop for a PushBot
  * It raises and lowers the claw using the Gampad Y and A buttons respectively. * In this mode the left stick moves the robot FWD and back, the Right stick turns left and right.
-
+ * <p>
  * It also opens and closes the claws slowly using the left and right Bumper buttons.
- *
+ * <p>
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- * Griffin had nothing to do with this code. if it breaks, it's not his fault
  */
 
-@Autonomous(name="Cap Ball Autonomous", group="Pushbot")
+@Autonomous(name = "Cat Ball Autonomous", group = "Pushbot")
 //@Disabled // Remove if you want to disable this for some obscure reason
 public class HiveBotAutonomousCapBall extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareHiveBot robot           = new HardwareHiveBot();
+    HardwareHiveBot robot = new HardwareHiveBot();   // Use a Pushbot's hardware
+
+    int tick = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
-
-        ElapsedTime timer = new ElapsedTime(0);
-        Drive DRIVE = new Drive(robot);
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -66,26 +62,28 @@ public class HiveBotAutonomousCapBall extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there INIT button!");    // Yo
+        telemetry.addData("Say", "Yo, driver! Wazzup, man??? \nI know you be wantin' to drive this robo-bot all around this didgeridoo,\n but first you gotta press that there PLAY button!");    // Yo
         telemetry.update();
-
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        // Panther-Knee Decagon
+        // Wait for the game to start (driver presses PLAY)
+      while (opModeIsActive()) {
 
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
+            tick++;
 
-            DRIVE.controlLeft(1.0);
-            DRIVE.controlRight(1.0);
+            if (tick < 30000) {
+                robot.leftMotor.setPower(1.0);
+                robot.rightMotor.setPower(1.0);
+            } else {
+                robot.leftMotor.setPower(0.0);
+                robot.rightMotor.setPower(0.0);
+            }
 
-            telemetry.addData("Say", "Right Val: " + robot.rightMotor.getCurrentPosition());
-            telemetry.addData("Say", "Left Val: " + robot.leftMotor.getCurrentPosition());
-            telemetry.addData("Say", "I am a sentient being.");
+            telemetry.addData("Tick:", tick);
             telemetry.update();
 
-            // Pause for metronome tick.  40 mS each cycle = update 25 times a second.
-            /*robot.waitForTick(40);
-            */
+        }
 
-        }}}
+    }
+}
 
